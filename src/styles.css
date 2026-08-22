@@ -225,3 +225,22 @@
   }
 }
 
+
+@keyframes swanDrift {
+  from { transform: translateX(-14px); }
+  to { transform: translateX(14px); }
+}
+
+@keyframes swanCross {
+  from { transform: translateX(-16%); }
+  to { transform: translateX(112%); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.9s ease-out both;
+}
