@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ceremonies, venue } from "@/lib/wedding";
 
 export function Ceremonies() {
-  const [open, setOpen] = useState<string | null>(ceremonies[1].name);
+  const [open, setOpen] = useState<string | null>(ceremonies[1]?.name ?? null);
 
   return (
     <section id="ceremonies" className="relative px-6 py-32 sm:py-40">

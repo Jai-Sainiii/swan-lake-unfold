@@ -8,7 +8,7 @@ export function Blessings() {
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
 
-  const current = list[index % list.length];
+  const current = list[index % list.length] ?? blessingsSeed[0]!;
 
   return (
     <section id="blessings" className="relative px-6 py-32 sm:py-40">

@@ -24,7 +24,7 @@ export function useReveal(enabled = true) {
           filter: "blur(0px)",
           duration: 1.4,
           ease: "power3.out",
-          delay: Number(el.dataset.delay ?? 0),
+          delay: Number(el.dataset['delay'] ?? 0),
           scrollTrigger: {
             trigger: el,
             start: "top 88%",
