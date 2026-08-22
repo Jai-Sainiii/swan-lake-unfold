@@ -162,8 +162,66 @@
     border-color: var(--color-border);
   }
 
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-powder-soft);
   }
 }
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@utility tracking-editorial {
+  letter-spacing: 0.32em;
+}
+
+@layer components {
+  .label-xs {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 300;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  .paper {
+    background-color: color-mix(in oklab, var(--color-ivory) 88%, white);
+    border: 1px solid color-mix(in oklab, var(--color-pearl) 70%, transparent);
+    box-shadow: 0 24px 60px -40px color-mix(in oklab, var(--color-powder) 90%, transparent);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
