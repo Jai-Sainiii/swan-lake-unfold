@@ -196,31 +196,31 @@ function SwanGlyph({ x, y, scale }: { x: number; y: number; scale: number }) {
     <g transform={`translate(${x} ${y}) scale(${scale})`}>
       {/* body with lifted tail */}
       <path
-        d="M0 18 C 4 30, 16 40, 34 42 C 54 44, 72 40, 84 32 C 76 30, 66 30, 58 32 C 46 24, 30 20, 16 24 C 12 20, 6 18, 0 18 Z"
+        d="M0 24 C 4 34, 16 44, 34 46 C 52 48, 68 44, 78 38 C 70 36, 62 36, 56 38 C 44 30, 28 26, 14 30 C 11 26, 6 24, 0 24 Z"
         fill="var(--ivory)"
         stroke="var(--pearl)"
         strokeWidth="0.8"
       />
       {/* neck */}
       <path
-        d="M80 33 C 68 26, 66 8, 76 0 C 84 -6, 94 -3, 96 5"
+        d="M74 39 C 62 30, 60 2, 74 -14 C 84 -25, 98 -22, 100 -10"
         fill="none"
         stroke="var(--ivory)"
-        strokeWidth="5"
+        strokeWidth="3.2"
         strokeLinecap="round"
       />
       <path
-        d="M80 33 C 68 26, 66 8, 76 0 C 84 -6, 94 -3, 96 5"
+        d="M74 39 C 62 30, 60 2, 74 -14 C 84 -25, 98 -22, 100 -10"
         fill="none"
         stroke="var(--pearl)"
-        strokeWidth="0.8"
+        strokeWidth="0.6"
         strokeLinecap="round"
-        opacity="0.7"
+        opacity="0.6"
       />
-      <circle cx="96" cy="6" r="3.6" fill="var(--ivory)" stroke="var(--pearl)" strokeWidth="0.8" />
-      <path d="M99 6 L 106 8 L 99 10 Z" fill="var(--pearl)" />
+      <circle cx="100" cy="-9" r="2.8" fill="var(--ivory)" stroke="var(--pearl)" strokeWidth="0.6" />
+      <path d="M102 -9 L 109 -7 L 102 -5 Z" fill="var(--pearl)" />
       {/* reflection */}
-      <ellipse cx="48" cy="48" rx="42" ry="4" fill="var(--ivory)" opacity="0.35" />
+      <ellipse cx="44" cy="52" rx="40" ry="4" fill="var(--ivory)" opacity="0.35" />
     </g>
   );
 
