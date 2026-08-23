@@ -1,52 +1,61 @@
 import { couple, families } from "@/lib/wedding";
 
-function Sprig() {
-  return (
-    <svg viewBox="0 0 60 20" className="h-4 w-16" fill="none" aria-hidden>
-      <path d="M2 10 H58" stroke="var(--pearl)" strokeWidth="1" />
-      <path d="M30 10 c -4 -6, -10 -6, -14 -2" stroke="var(--sage)" strokeWidth="1" />
-      <path d="M30 10 c 4 -6, 10 -6, 14 -2" stroke="var(--sage)" strokeWidth="1" />
-    </svg>
-  );
-}
-
 export function Families() {
   return (
-    <section id="families" className="relative px-6 py-32 sm:py-40">
-      <header className="mx-auto max-w-5xl text-center">
-        <p className="reveal label-xs">Our Families</p>
-        <h2 className="reveal mt-6 font-display text-[clamp(2rem,5vw,3.5rem)] font-light tracking-[0.08em] text-ink" data-delay="0.1">
-          Two families, one beginning
-        </h2>
+    <section id="families" className="relative px-2 py-16 text-center overflow-hidden">
+      <header className="relative mx-auto max-w-sm z-10">
+        <div className="reveal inline-block">
+          <span className="font-cinzel text-xs font-bold tracking-[0.28em] text-[#997a15] uppercase">
+            With Blessings &amp; Honour
+          </span>
+          <h2 className="mt-2 font-cinzel-dec text-2xl font-bold tracking-wide text-[#1c232f]">
+            Two Royal Lineages
+          </h2>
+          <div className="mx-auto mt-2.5 h-0.5 w-14 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
+        </div>
       </header>
 
-      <div className="mx-auto mt-20 grid max-w-4xl gap-10 md:grid-cols-2 md:gap-16">
+      {/* Families Cards */}
+      <div className="relative mx-auto mt-10 flex flex-col gap-6 max-w-sm z-10">
         {families.map((f, i) => (
           <div
             key={f.side}
-            className="reveal paper flex flex-col items-center px-8 py-14 text-center"
+            className="reveal paper paper-gold-rim relative flex flex-col items-center rounded-2xl px-5 py-8 text-center shadow-md"
             data-delay={i === 0 ? "0" : "0.15"}
           >
-            <p className="label-xs">{f.side}</p>
-            <Sprig />
-            <p className="mt-4 font-display text-xl font-light leading-relaxed tracking-[0.05em] text-ink">
+            {/* Header Badge */}
+            <span className="font-cinzel text-[10px] font-bold uppercase tracking-[0.22em] text-[#997a15]">
+              {f.side}
+            </span>
+
+            {/* Sprig Arch */}
+            <svg viewBox="0 0 100 20" className="h-3.5 w-20 text-[#d4af37] my-2.5" fill="none" stroke="currentColor" strokeWidth="1">
+              <path d="M10 10 H90" />
+              <circle cx="50" cy="10" r="2.5" fill="#d4af37" />
+              <path d="M30 6 Q40 10 30 14 M70 6 Q60 10 70 14" strokeWidth="0.8" />
+            </svg>
+
+            <p className="mt-1 font-serif-body text-lg font-bold text-[#1c232f]">
               {f.parents}
             </p>
-            <p className="mt-4 text-xs font-light tracking-[0.2em] text-muted-foreground">
-              {f.line.toUpperCase()}
+
+            <p className="mt-2 font-sans text-[11px] font-light tracking-wide text-stone-500 max-w-xs">
+              {f.line}
             </p>
-            <p className="mt-3 font-display text-2xl font-light italic text-ink">
+
+            <h3 className="mt-2 font-cinzel-dec text-xl font-bold text-[#997a15]">
               {f.name}
+            </h3>
+
+            <p className="mt-3 font-sans text-[10px] font-light italic text-stone-500 leading-relaxed max-w-xs border-t border-amber-200/60 pt-3">
+              {f.grandparents}
             </p>
+
+            <blockquote className="mt-3 font-serif-body text-[11px] italic text-stone-600">
+              {f.blessing}
+            </blockquote>
           </div>
         ))}
-      </div>
-
-      <div className="reveal mt-16 flex flex-col items-center gap-4" data-delay="0.3">
-        <Sprig />
-        <p className="font-display text-lg font-light tracking-[0.22em] text-muted-foreground">
-          {couple.bride.toUpperCase()} × {couple.groom.toUpperCase()}
-        </p>
       </div>
     </section>
   );

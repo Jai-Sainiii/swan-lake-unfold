@@ -1,53 +1,91 @@
 import { venue } from "@/lib/wedding";
-
-function PavilionSilhouette() {
-  return (
-    <svg viewBox="0 0 400 220" className="h-auto w-full max-w-md" fill="none" aria-hidden>
-      <path d="M200 20 L340 90 H60 Z" stroke="var(--pearl)" strokeWidth="1" />
-      <path d="M200 8 v14" stroke="var(--pearl)" strokeWidth="1" />
-      <circle cx="200" cy="6" r="3" stroke="var(--pearl)" strokeWidth="1" />
-      {[80, 120, 160, 200, 240, 280, 320].map((x) => (
-        <path key={x} d={`M${x} 90 v70`} stroke="var(--pearl)" strokeWidth="1" />
-      ))}
-      <path d="M60 160 H340" stroke="var(--pearl)" strokeWidth="1" />
-      <path d="M50 172 H350" stroke="var(--pearl)" strokeWidth="1" />
-      <path d="M20 190 H380" stroke="var(--powder)" strokeWidth="1" />
-      <path d="M50 178 H350" stroke="var(--powder)" strokeOpacity="0.5" strokeWidth="1" />
-      <path d="M80 200 H320" stroke="var(--powder)" strokeOpacity="0.35" strokeWidth="1" />
-    </svg>
-  );
-}
+import { MapPin, Navigation, Plane, Ship, Sun } from "lucide-react";
+import {
+  RooftopVenueIllustration,
+  BotanicalCorner,
+} from "@/components/wedding/Decorations";
 
 export function VenueSection() {
   return (
-    <section id="venue" className="relative px-6 py-32 text-center sm:py-40">
-      <p className="reveal label-xs">Venue</p>
-      <h2 className="reveal mt-6 font-display text-[clamp(2rem,5vw,3.5rem)] font-light tracking-[0.08em] text-ink" data-delay="0.1">
-        {venue.name}
-      </h2>
+    <section id="venue" className="relative px-2 py-16 text-center overflow-hidden">
+      {/* Header */}
+      <header className="relative mx-auto max-w-sm z-10">
+        <div className="reveal inline-block">
+          <span className="font-cinzel text-xs font-bold tracking-[0.28em] text-[#997a15] uppercase">
+            Destination &amp; Sanctuary
+          </span>
+          <h2 className="mt-2 font-cinzel-dec text-2xl font-bold tracking-wide text-[#1c232f]">
+            {venue.name}
+          </h2>
+          <div className="mx-auto mt-2.5 h-0.5 w-14 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
+          <p className="mt-1.5 font-serif-body text-xs italic text-stone-500">
+            {venue.subname}
+          </p>
+        </div>
+      </header>
 
-      <div className="reveal mx-auto mt-14 flex justify-center" data-delay="0.15">
-        <PavilionSilhouette />
+      {/* Hand-painted Watercolor Rooftop Venue Spot Illustration (matching user reference) */}
+      <div className="reveal relative mx-auto mt-6 max-w-[290px] z-10" data-delay="0.15">
+        <RooftopVenueIllustration className="w-full" />
       </div>
 
-      <address className="reveal mt-12 not-italic" data-delay="0.2">
-        <p className="mx-auto max-w-sm text-sm font-light leading-loose text-muted-foreground">
+      {/* Address Card */}
+      <div
+        className="reveal paper paper-gold-rim relative mx-auto max-w-sm rounded-2xl p-5 text-center shadow-md z-10 mt-6"
+        data-delay="0.2"
+      >
+        <BotanicalCorner className="top-2 left-2" />
+        <BotanicalCorner className="top-2 right-2" flip />
+
+        <div className="flex items-center justify-center gap-1.5 text-[#997a15]">
+          <MapPin className="h-4 w-4" />
+          <span className="font-cinzel text-xs font-bold uppercase tracking-wider">
+            Lake Pichola, Udaipur
+          </span>
+        </div>
+
+        <p className="mt-2.5 font-sans text-xs text-stone-700 leading-relaxed max-w-xs mx-auto">
           {venue.address}
         </p>
-        <p className="mt-4 text-xs font-light tracking-[0.22em] text-ink">
-          {venue.timing.toUpperCase()}
-        </p>
-      </address>
 
-      <a
-        href={venue.mapUrl}
-        target="_blank"
-        rel="noreferrer"
-        className="reveal label-xs mt-12 inline-block border border-pearl px-10 py-4 text-ink transition-colors duration-500 hover:bg-ivory-deep"
-        data-delay="0.25"
-      >
-        View Location
-      </a>
+        <p className="mt-1.5 font-cinzel text-[11px] font-semibold text-[#997a15]">
+          {venue.timing}
+        </p>
+
+        <a
+          href={venue.mapUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-amber-300/80 bg-white/90 px-4 py-1.5 font-cinzel text-[10px] font-bold uppercase tracking-wider text-[#997a15] shadow-xs hover:bg-amber-50 active:scale-95 transition-all"
+        >
+          <Navigation className="h-3 w-3" />
+          <span>Open in Google Maps</span>
+        </a>
+      </div>
+
+      {/* Travel Tips */}
+      <div className="reveal mx-auto mt-6 grid max-w-sm grid-cols-1 gap-3 z-10" data-delay="0.25">
+        {venue.travelTips.map((tip, idx) => (
+          <div
+            key={tip.title}
+            className="paper flex items-start gap-3 rounded-xl p-3.5 text-left shadow-xs border border-amber-200/40"
+          >
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-50 text-[#997a15] border border-amber-200">
+              {idx === 0 && <Plane className="h-4 w-4" />}
+              {idx === 1 && <Ship className="h-4 w-4" />}
+              {idx === 2 && <Sun className="h-4 w-4" />}
+            </div>
+            <div>
+              <h4 className="font-cinzel text-xs font-bold text-[#1c232f]">
+                {tip.title}
+              </h4>
+              <p className="font-serif-body text-[11px] text-stone-600 mt-0.5 leading-snug">
+                {tip.desc}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

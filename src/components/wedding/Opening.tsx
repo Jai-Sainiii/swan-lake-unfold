@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { getGsap, prefersReducedMotion } from "@/lib/motion";
-import { couple } from "@/lib/wedding";
+import openingVideo from "@/assets/opening-scene.mp4";
+import { Sparkles, Play } from "lucide-react";
 
 export function Opening({
   runKey,
@@ -9,93 +10,194 @@ export function Opening({
   runKey: number;
   onDone: () => void;
 }) {
-  const root = useRef<HTMLDivElement>(null);
-  const [showSkip, setShowSkip] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const whiteScreenRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const [progress, setProgress] = useState(0);
+  const [showPlayFallback, setShowPlayFallback] = useState(false);
+  const isTransitioningRef = useRef(false);
+
+  // Transition sequence: White screen appears, then slowly dissolves to reveal website
+  const triggerTransition = useCallback(() => {
+    if (isTransitioningRef.current) return;
+    isTransitioningRef.current = true;
+
     const { gsap } = getGsap();
+
     if (prefersReducedMotion()) {
       onDone();
       return;
     }
 
-    const skipTimer = window.setTimeout(() => setShowSkip(true), 1600);
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ onComplete: onDone });
-      tl.from(".op-envelope", {
-        y: 60,
-        opacity: 0,
-        scale: 0.96,
-        duration: 1.6,
-        ease: "power3.out",
-      })
-        .from(".op-ribbon", { scaleX: 0, duration: 1.1, ease: "power2.inOut" }, "-=0.8")
-        .from(".op-seal", { scale: 0.6, opacity: 0, duration: 0.9, ease: "power2.out" }, "-=0.5")
-        .to(".op-seal", { opacity: 0, scale: 1.15, duration: 0.8, ease: "power2.inOut" }, "+=0.4")
-        .to(".op-ribbon", { opacity: 0, duration: 0.6 }, "<")
-        .to(".op-flap", { rotateX: -168, duration: 1.5, ease: "power3.inOut" }, "-=0.3")
-        .to(".op-card", { y: -128, duration: 1.6, ease: "power3.out" }, "-=0.9")
-        .from(".op-line", { opacity: 0, y: 14, filter: "blur(6px)", duration: 1.1, stagger: 0.18, ease: "power2.out" }, "-=0.9")
-        .to(".op-body", { y: -40, duration: 1.2, ease: "power2.inOut" }, "+=0.6")
-        .to(".op-card", { scale: 14, duration: 2.2, ease: "power3.inOut" }, "-=0.4")
-        .to(".op-text", { opacity: 0, duration: 0.7, ease: "power2.out" }, "-=2")
-        .to(".op-envelope-body", { opacity: 0, duration: 0.8 }, "-=1.8")
-        .to(root.current, { opacity: 0, duration: 0.9, ease: "power2.inOut" }, "-=0.7");
-    }, root);
+    const whiteScreen = whiteScreenRef.current;
+    const root = rootRef.current;
+    const video = videoRef.current;
 
-    return () => {
-      window.clearTimeout(skipTimer);
-      ctx.revert();
-    };
-  }, [runKey, onDone]);
+    if (!whiteScreen || !root) {
+      onDone();
+      return;
+    }
+
+    const tl = gsap.timeline();
+
+    // Step 1: White screen appears smoothly over video inside mobile frame
+    tl.to(whiteScreen, {
+      opacity: 1,
+      duration: 0.7,
+      ease: "power2.inOut",
+      onComplete: () => {
+        if (video) {
+          video.pause();
+        }
+        // Tell parent that opening has finished so main page is active
+        onDone();
+      },
+    })
+      // Step 2: White screen slowly fades out, revealing the website softly
+      .to(whiteScreen, {
+        opacity: 0,
+        duration: 1.8,
+        ease: "power2.out",
+      })
+      .set(root, {
+        display: "none",
+      });
+  }, [onDone]);
+
+  // Handle video end
+  const handleVideoEnded = () => {
+    triggerTransition();
+  };
+
+  // Skip button handler
+  const handleSkip = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    triggerTransition();
+  };
+
+  // Video progress tracking
+  const handleTimeUpdate = () => {
+    if (videoRef.current && videoRef.current.duration) {
+      const p = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+      setProgress(p);
+    }
+  };
+
+  // Start playback fallback if needed
+  const handleManualPlay = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.play().then(() => {
+        setShowPlayFallback(false);
+      }).catch(() => {});
+    }
+  };
+
+  // Auto-play muted video on mount
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setShowPlayFallback(false);
+        })
+        .catch(() => {
+          setShowPlayFallback(true);
+        });
+    }
+  }, [runKey]);
 
   return (
     <div
-      ref={root}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ivory"
+      ref={rootRef}
+      onWheel={(e) => {
+        e.stopPropagation();
+      }}
+      onTouchMove={(e) => {
+        e.stopPropagation();
+      }}
+      className="fixed lg:absolute inset-0 z-50 flex items-center justify-center bg-black overflow-hidden select-none touch-none overscroll-none"
     >
-      <div className="op-body relative" style={{ perspective: "1400px" }}>
-        <div className="op-envelope relative h-[300px] w-[440px] max-w-[86vw] sm:h-[340px]">
-          {/* card */}
-          <div className="op-card paper absolute inset-x-6 bottom-8 top-10 flex flex-col items-center justify-center gap-4 px-6 text-center">
-            <div className="op-text flex flex-col items-center gap-3">
-              <span className="op-line label-xs">Together with their families</span>
-              <span className="op-line font-display text-3xl font-light tracking-[0.18em] text-ink sm:text-4xl">
-                {couple.bride}
-              </span>
-              <span className="op-line font-display text-lg italic text-muted-foreground">
-                &
-              </span>
-              <span className="op-line font-display text-3xl font-light tracking-[0.18em] text-ink sm:text-4xl">
-                {couple.groom}
-              </span>
-            </div>
-          </div>
+      {/* Opening Scene Video (Always Muted) */}
+      <video
+        ref={videoRef}
+        src={openingVideo}
+        playsInline
+        autoPlay
+        muted
+        preload="auto"
+        onEnded={handleVideoEnded}
+        onTimeUpdate={handleTimeUpdate}
+        className="h-full w-full object-cover pointer-events-none"
+      />
 
-          {/* envelope body */}
-          <div className="op-envelope-body pointer-events-none absolute inset-0">
-            <div className="absolute inset-x-0 bottom-0 top-[38%] border border-pearl/70 bg-ivory-deep" />
-            <div
-              className="op-flap absolute inset-x-0 top-0 h-[46%] origin-top border border-pearl/70 bg-ivory"
-              style={{
-                clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                transformStyle: "preserve-3d",
-              }}
-            />
-            <div className="op-ribbon absolute inset-x-0 top-[62%] h-px origin-center bg-pearl" />
-            <div className="op-seal absolute left-1/2 top-[62%] h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-pearl bg-powder-soft" />
-          </div>
-        </div>
+      {/* Subtle Cinematic Vignette Overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/40" />
+
+      {/* Top Left Branding Overlay */}
+      <div className="absolute top-4 left-4 z-20 pointer-events-none flex items-center gap-2 opacity-85">
+        <div className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+        <span className="font-cinzel text-[10px] uppercase tracking-[0.25em] text-amber-100 drop-shadow-md font-semibold">
+          Swan Lake
+        </span>
       </div>
 
-      {showSkip && (
+      {/* Top Right Skip Control */}
+      <div className="absolute top-4 right-4 z-20 flex items-center">
         <button
-          onClick={onDone}
-          className="label-xs absolute bottom-10 left-1/2 -translate-x-1/2 transition-opacity hover:opacity-60"
+          type="button"
+          onClick={handleSkip}
+          className="group flex items-center gap-1.5 rounded-full bg-black/50 backdrop-blur-md border border-amber-400/40 px-3 py-1.5 text-[10px] font-cinzel tracking-[0.18em] uppercase text-amber-100 shadow-md hover:bg-black/70 hover:scale-105 active:scale-95 transition-all cursor-pointer"
         >
-          Skip
+          <span>Skip</span>
+          <Sparkles className="h-3 w-3 text-amber-300 transition-transform group-hover:rotate-12" />
         </button>
+      </div>
+
+      {/* Play Fallback for Autoplay-Restricted Browsers */}
+      {showPlayFallback && (
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/70 backdrop-blur-xs px-4">
+          <button
+            type="button"
+            onClick={handleManualPlay}
+            className="group flex flex-col items-center gap-3 cursor-pointer"
+          >
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#d4af37] to-[#8B4513] text-white shadow-[0_0_30px_rgba(212,175,55,0.6)] group-hover:scale-110 active:scale-95 transition-all duration-300">
+              <Play className="h-7 w-7 fill-current ml-0.5" />
+            </div>
+            <div className="text-center">
+              <p className="font-cinzel text-xs font-bold uppercase tracking-[0.24em] text-amber-200">
+                Begin Wedding Story
+              </p>
+              <p className="mt-1 font-serif-body text-[11px] italic text-stone-300">
+                Tap to experience the celebration
+              </p>
+            </div>
+          </button>
+        </div>
       )}
+
+      {/* Bottom Progress Line */}
+      <div className="absolute bottom-0 inset-x-0 h-1 bg-white/15 z-20">
+        <div
+          className="h-full bg-gradient-to-r from-amber-400 to-amber-200 transition-all duration-150 ease-linear"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      {/* Pure White Transition Curtain: Appears at video end, then slowly dissolves to reveal website */}
+      <div
+        ref={whiteScreenRef}
+        aria-hidden
+        className="fixed lg:absolute inset-0 z-[60] bg-white opacity-0 pointer-events-none"
+      />
     </div>
   );
 }
