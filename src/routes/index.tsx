@@ -171,7 +171,7 @@ function Invitation() {
               )}
 
               {/* Wedding Invitation Main Sections */}
-              <main className="relative z-10 w-full px-4 sm:px-5 pb-16">
+              <main className="relative z-10 w-full pb-0">
                 <Welcome />
                 <Story />
                 <Families />

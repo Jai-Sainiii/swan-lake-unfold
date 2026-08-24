@@ -3,6 +3,7 @@ import { couple } from "@/lib/wedding";
 import { ChevronDown, Sparkles } from "lucide-react";
 import { SwanFountainCountdown } from "@/components/wedding/SwanFountainCountdown";
 import welcomeBg from "@/assets/welcome-bg.jpg";
+import topFloralCanopy from "@/assets/top-floral-canopy.png";
 
 function useCountdown(target: string) {
   const [parts, setParts] = useState<{ d: number; h: number; m: number; s: number } | null>(null);
@@ -32,21 +33,29 @@ export function Welcome() {
   return (
     <section
       id="welcome"
-      className="relative flex min-h-[100svh] flex-col items-center justify-between px-3 pt-16 pb-10 text-center select-none overflow-hidden"
+      className="relative flex min-h-[114svh] sm:min-h-[118svh] w-full flex-col items-center justify-between px-0 pt-28 sm:pt-32 pb-0 text-center select-none overflow-hidden"
     >
-      {/* ── Royal Swan Lake Ornate Frame Background (Fitted Cleanly) ── */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      {/* ── TOP FLORAL CANOPY OVERLAY (At the very top) ── */}
+      <div className="pointer-events-none absolute top-0 left-0 right-0 w-full z-20 flex justify-center select-none overflow-hidden">
+        <img
+          src={topFloralCanopy}
+          alt="Top Floral Canopy"
+          className="w-full max-h-36 sm:max-h-44 object-cover object-top drop-shadow-sm opacity-95"
+        />
+      </div>
+      {/* ── Royal Swan Lake Ornate Frame Background (Zoomed out) ── */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-[#faf8f5]">
         <img
           src={welcomeBg}
           alt="Royal Swan Lake Arch Frame"
-          className="h-full w-full object-cover object-top opacity-95"
+          className="h-full w-full object-cover object-top scale-100 origin-top opacity-95 transition-transform duration-1000"
         />
         {/* Soft subtle radial wash to highlight centered typography */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.78)_0%,rgba(255,255,255,0.45)_50%,transparent_85%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.6)_0%,rgba(255,255,255,0.2)_50%,transparent_85%)]" />
       </div>
 
-      {/* ── CENTERED INVITATION CONTENT (Inside the Gilded Arch) ── */}
-      <div className="my-auto flex flex-col items-center w-full max-w-[320px] mx-auto z-10 py-2">
+      {/* ── TOP & CENTER INVITATION CONTENT (Positioned below the top arch) ── */}
+      <div className="flex flex-col items-center w-full max-w-[340px] px-4 mx-auto z-10 pt-4 sm:pt-6">
         {/* Decorative Top Monogram Seal Badge */}
         <div className="reveal relative mb-2 flex flex-col items-center justify-center">
           <div className="relative flex items-center justify-center w-13 h-13 rounded-full border border-[#d4af37]/75 bg-gradient-to-b from-[#faf5ef] to-[#f3ede2] shadow-[0_3px_12px_rgba(212,175,55,0.25)]">
@@ -92,19 +101,22 @@ export function Welcome() {
             {couple.venue} · {couple.city}
           </p>
         </div>
-
-        {/* ── Compact Royal Fountain Countdown (Fitted inside the frame) ── */}
-        <div className="reveal mt-3 w-full" data-delay="0.16">
-          <SwanFountainCountdown parts={c} />
-        </div>
       </div>
 
-      {/* ── Bottom Scroll Indicator ── */}
-      <div className="reveal flex flex-col items-center gap-1 text-stone-500 z-10 pb-2" data-delay="0.2">
-        <span className="font-cinzel text-[8.5px] uppercase tracking-[0.28em] text-[#997a15]/90 font-semibold">
-          Explore Our Story
-        </span>
-        <ChevronDown className="h-3.5 w-3.5 text-[#d4af37] animate-bounce" />
+      {/* ── BOTTOM FOUNTAIN COUNTDOWN & SCROLL INDICATOR (Full Width Edge-to-Edge) ── */}
+      <div className="relative w-full z-10 mt-auto flex flex-col items-center">
+        {/* Fountain Component (100% width) */}
+        <div className="reveal w-full" data-delay="0.16">
+          <SwanFountainCountdown parts={c} />
+        </div>
+
+        {/* Bottom Scroll Indicator Overlaid at the Base */}
+        <div className="reveal absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0.5 text-stone-600 z-20" data-delay="0.2">
+          <span className="font-cinzel text-[8.5px] uppercase tracking-[0.28em] text-[#8a6616] font-bold drop-shadow-xs">
+            Explore Our Story
+          </span>
+          <ChevronDown className="h-3.5 w-3.5 text-[#997a15] animate-bounce" />
+        </div>
       </div>
     </section>
   );
