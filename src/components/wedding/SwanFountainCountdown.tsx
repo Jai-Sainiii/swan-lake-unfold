@@ -49,7 +49,7 @@ export function SwanFountainCountdown({ parts }: { parts: CountdownParts | null 
                   className="flex flex-col items-center justify-center px-0.5 py-0.5"
                 >
                   {/* Engraved Number */}
-                  <span className="font-cinzel-dec text-[16px] sm:text-[18px] font-bold tabular-nums text-[#1e2532] leading-none tracking-tight">
+                  <span className="font-cinzel text-[17px] sm:text-[19px] font-bold tabular-nums text-[#1e2532] leading-none tracking-normal">
                     {item.v !== undefined ? String(item.v).padStart(2, "0") : "—"}
                   </span>
                   {/* Label */}

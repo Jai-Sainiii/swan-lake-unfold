@@ -95,12 +95,12 @@ export function Gallery() {
   }, [lightboxIndex, nextSlide, prevSlide]);
 
   const handleTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
-    const clientX = "touches" in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const clientX = "touches" in e ? e.touches[0]?.clientX ?? 0 : (e as React.MouseEvent).clientX;
     touchStartX.current = clientX;
   };
 
   const handleTouchMove = (e: React.TouchEvent | React.MouseEvent) => {
-    const clientX = "touches" in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const clientX = "touches" in e ? e.touches[0]?.clientX ?? 0 : (e as React.MouseEvent).clientX;
     touchEndX.current = clientX;
   };
 
@@ -118,7 +118,7 @@ export function Gallery() {
     touchEndX.current = null;
   };
 
-  const current = memories[activeIndex];
+  const current = memories[activeIndex] ?? memories[0]!;
 
   return (
     <section

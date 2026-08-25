@@ -33,7 +33,7 @@ export function AudioPlayer() {
       const playPluck = () => {
         if (!isPlayingRef.current || !audioCtxRef.current) return;
         const now = audioCtxRef.current.currentTime;
-        const freq = notes[step % notes.length];
+        const freq = notes[step % notes.length] ?? 293.66;
         step++;
 
         // Oscillator 1 (Warm Sine/Triangle Harp tone)

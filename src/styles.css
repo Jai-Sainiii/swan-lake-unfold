@@ -92,7 +92,7 @@
 
   --font-display: "Cormorant Garamond", "Times New Roman", serif;
   --font-cinzel: "Cinzel", serif;
-  --font-cinzel-decorative: "Cinzel Decorative", serif;
+  --font-cinzel-decorative: "Cinzel", "Cormorant Garamond", serif;
   --font-script: "Great Vibes", cursive;
   --font-alex: "Alex Brush", cursive;
   --font-serif-body: "Playfair Display", serif;

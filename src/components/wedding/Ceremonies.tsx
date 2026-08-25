@@ -182,12 +182,12 @@ function SwansPairHeartOnWater() {
       <img
         src={ceremonySwanRaw}
         alt="Left Swan"
-        className="w-20 sm:w-22 h-auto object-contain -mr-4 mix-blend-multiply opacity-95"
+        className="w-20 sm:w-22 h-auto object-contain -mr-4 mix-blend-multiply opacity-95 -scale-x-100"
       />
       <img
         src={ceremonySwanRaw}
         alt="Right Swan"
-        className="w-20 sm:w-22 h-auto object-contain -scale-x-100 -ml-4 mix-blend-multiply opacity-95"
+        className="w-20 sm:w-22 h-auto object-contain -ml-4 mix-blend-multiply opacity-95"
       />
     </div>
   );
@@ -201,6 +201,7 @@ interface CelebrationEvent {
   venueName: string;
   cityState: string;
   subtitleQuote: string;
+  dressCode: string;
   motifType: "marigold" | "mehendi" | "music" | "lotus";
   side: "left" | "right"; // Details side
   hasLeftSwan?: boolean;
@@ -214,6 +215,14 @@ export function Ceremonies() {
   const sectionRef = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  const handleSaveEventToCalendar = (item: CelebrationEvent) => {
+    const title = encodeURIComponent(`${item.name} - ${couple.bride} & ${couple.groom}'s Wedding`);
+    const details = encodeURIComponent(`Join us for ${item.name} ceremony at ${item.venueName}, ${item.cityState}. Dress Code: ${item.dressCode}.`);
+    const location = encodeURIComponent(`${item.venueName}, ${item.cityState}`);
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}`;
+    window.open(url, "_blank");
+  };
+
   // Map 4 celebration events to match reference image layout
   const celebrationList: CelebrationEvent[] = [
     {
@@ -224,10 +233,11 @@ export function Ceremonies() {
       venueName: "THE GARDEN PAVILION",
       cityState: "Jaipur, Rajasthan",
       subtitleQuote: "The first bloom of our story.",
+      dressCode: "Sunshine Yellow & Ethnic",
       motifType: "marigold",
       side: "right", // Details on Right
       hasLeftSwan: true,
-      fullData: ceremonies[0],
+      fullData: ceremonies[0]!,
     },
     {
       numeral: "02",
@@ -237,10 +247,11 @@ export function Ceremonies() {
       venueName: "THE GARDEN PAVILION",
       cityState: "Jaipur, Rajasthan",
       subtitleQuote: "A little colour, a little laughter.",
+      dressCode: "Floral Pastels & Festive",
       motifType: "mehendi",
       side: "left", // Details on Left
       hasRightSwan: true,
-      fullData: ceremonies[0],
+      fullData: ceremonies[0]!,
     },
     {
       numeral: "03",
@@ -250,9 +261,11 @@ export function Ceremonies() {
       venueName: "THE LAKE PAVILION",
       cityState: "Jaipur, Rajasthan",
       subtitleQuote: "Where our story finds rhythm.",
+      dressCode: "Glitz & Glamour Indo-Western",
       motifType: "music",
       side: "right", // Details on Right
-      fullData: ceremonies[1],
+      hasLeftSwan: true,
+      fullData: ceremonies[1]!,
     },
     {
       numeral: "04",
@@ -262,10 +275,11 @@ export function Ceremonies() {
       venueName: "THE LAKE PAVILION",
       cityState: "Jaipur, Rajasthan",
       subtitleQuote: "And finally, forever begins.",
+      dressCode: "Royal Regal Ethnic Attire",
       motifType: "lotus",
       side: "left", // Details on Left
       hasSwansPair: true,
-      fullData: ceremonies[2],
+      fullData: ceremonies[2]!,
     },
   ];
 
@@ -332,9 +346,9 @@ export function Ceremonies() {
       </header>
 
       {/* ── TIMELINE CONTAINER WITH CENTRAL S-CURVE THREAD ── */}
-      <div className="relative mx-auto max-w-[360px] sm:max-w-[420px] mt-4 z-10">
-        {/* Continuous Sinusoidal Golden Thread SVG */}
-        <div className="pointer-events-none absolute inset-0 left-1/2 -translate-x-1/2 w-full h-full z-0">
+      <div className="relative mx-auto max-w-[400px] sm:max-w-[460px] mt-4 z-10">
+        {/* Continuous Sinusoidal Asymmetrical Golden Thread SVG */}
+        <div className="pointer-events-none absolute inset-0 w-full h-full z-0">
           <svg
             viewBox="0 0 360 1400"
             preserveAspectRatio="none"
@@ -343,10 +357,11 @@ export function Ceremonies() {
           >
             <path
               d="M 180 0 
-                 C 180 80, 220 150, 180 280 
-                 C 140 410, 230 520, 180 650 
-                 C 130 780, 220 890, 180 1020 
-                 C 140 1150, 200 1280, 180 1400"
+                 C 180 60, 90 90, 90 160 
+                 C 90 280, 270 340, 270 480 
+                 C 270 620, 90 680, 90 820 
+                 C 90 960, 270 1020, 270 1160 
+                 C 270 1260, 180 1320, 180 1400"
               stroke="#caa44b"
               strokeWidth="1.2"
               strokeDasharray="4 2.5"
@@ -355,10 +370,11 @@ export function Ceremonies() {
             {/* Scroll-Revealed Gold River Line */}
             <path
               d="M 180 0 
-                 C 180 80, 220 150, 180 280 
-                 C 140 410, 230 520, 180 650 
-                 C 130 780, 220 890, 180 1020 
-                 C 140 1150, 200 1280, 180 1400"
+                 C 180 60, 90 90, 90 160 
+                 C 90 280, 270 340, 270 480 
+                 C 270 620, 90 680, 90 820 
+                 C 90 960, 270 1020, 270 1160 
+                 C 270 1260, 180 1320, 180 1400"
               stroke="#d4af37"
               strokeWidth="1.8"
               strokeDasharray="1400"
@@ -376,8 +392,14 @@ export function Ceremonies() {
 
             return (
               <article key={item.numeral} className="reveal relative w-full" data-delay={`${idx * 0.1}`}>
-                {/* ── Central Golden Arch Node with Water Ripples & Icon ── */}
-                <div className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+                {/* ── Asymmetrical Arch Node (Shifted to Left or Right to give details ~75% width) ── */}
+                <div
+                  className={`absolute top-[42%] -translate-y-1/2 z-20 flex flex-col items-center ${
+                    isDetailsRight
+                      ? "left-[24%] sm:left-[25%] -translate-x-1/2"
+                      : "left-[76%] sm:left-[75%] -translate-x-1/2"
+                  }`}
+                >
                   <div className="relative flex flex-col items-center justify-center">
                     {/* Water Ripples Base */}
                     <WaterRippleRings />
@@ -460,31 +482,37 @@ export function Ceremonies() {
                   </div>
                 </div>
 
-                {/* ── 2-Column Grid Layout (Details vs Empty Space) ── */}
-                <div className="grid grid-cols-2 gap-3 sm:gap-5 items-center w-full">
+                {/* ── Asymmetrical Grid Layout (Details get ~75% width, Spacer gets ~25%) ── */}
+                <div
+                  className={`grid gap-2 sm:gap-4 items-center w-full ${
+                    isDetailsRight
+                      ? "grid-cols-[0.7fr_2.3fr] sm:grid-cols-[0.8fr_2.4fr]"
+                      : "grid-cols-[2.3fr_0.7fr] sm:grid-cols-[2.4fr_0.8fr]"
+                  }`}
+                >
                   {/* LEFT COLUMN */}
                   {isDetailsRight ? (
                     /* Empty Spacer on Left (Arch Node sits in center) */
                     <div className="w-full h-1" />
                   ) : (
-                    /* Event Details on Left */
-                    <div className="flex flex-col items-center text-center px-1 sm:px-2 z-10">
+                    /* Event Details on Left (padded further to the left away from the line) */
+                    <div className="flex flex-col items-center text-center pr-10 sm:pr-14 pl-0 z-10 w-full">
                       <h3 className="font-cinzel text-base sm:text-lg font-bold uppercase tracking-[0.14em] text-[#1c232f]">
                         {item.name}
                       </h3>
 
-                      <div className="mt-2 space-y-1 font-serif-body text-[11.5px] sm:text-[12.5px] text-stone-700">
-                        <div className="flex items-center justify-center gap-1.5">
+                      <div className="mt-2 space-y-1.5 font-serif-body text-[11.5px] sm:text-[12.5px] text-stone-700 inline-flex flex-col items-start text-left mx-auto">
+                        <div className="flex items-center gap-2">
                           <Calendar className="w-3.5 h-3.5 text-[#b88b2a] shrink-0" />
-                          <span>{item.date}</span>
+                          <span className="font-medium text-stone-800">{item.date}</span>
                         </div>
-                        <div className="flex items-center justify-center gap-1.5">
+                        <div className="flex items-center gap-2">
                           <Clock className="w-3.5 h-3.5 text-[#b88b2a] shrink-0" />
                           <span>{item.time}</span>
                         </div>
-                        <div className="flex items-center justify-center gap-1.5 pt-0.5">
-                          <MapPin className="w-3.5 h-3.5 text-[#b88b2a] shrink-0" />
-                          <div className="flex flex-col leading-tight">
+                        <div className="flex items-start gap-2 pt-0.5">
+                          <MapPin className="w-3.5 h-3.5 text-[#b88b2a] shrink-0 mt-0.5" />
+                          <div className="flex flex-col leading-tight text-left">
                             <span className="font-cinzel font-bold text-[10px] sm:text-[10.5px] uppercase tracking-wider text-stone-800">
                               {item.venueName}
                             </span>
@@ -493,40 +521,55 @@ export function Ceremonies() {
                             </span>
                           </div>
                         </div>
+                        <div className="flex items-center gap-2 pt-0.5">
+                          <Shirt className="w-3.5 h-3.5 text-[#b88b2a] shrink-0" />
+                          <span className="italic text-[#80640f] text-[11px] sm:text-[12px] font-medium">{item.dressCode}</span>
+                        </div>
                       </div>
 
-                      {/* View Location Link */}
-                      <button
-                        type="button"
-                        onClick={() => setSelectedEvent(item.fullData)}
-                        className="mt-2.5 inline-flex items-center gap-1 font-cinzel text-[10px] sm:text-[10.5px] font-bold text-[#b88b2a] hover:text-[#997a15] tracking-wider transition-colors cursor-pointer"
-                      >
-                        <span>View Location</span>
-                        <span>→</span>
-                      </button>
+                      {/* Action Links (View Location & Save to Calendar) */}
+                      <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedEvent(item.fullData)}
+                          className="inline-flex items-center gap-1 font-cinzel text-[10px] sm:text-[10.5px] font-bold text-[#b88b2a] hover:text-[#997a15] tracking-wider transition-colors cursor-pointer"
+                        >
+                          <span>View Location</span>
+                          <span>→</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleSaveEventToCalendar(item)}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-[#d4af37]/60 bg-[#fdfcf9]/95 px-3 py-1 font-cinzel text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider text-[#997a15] hover:bg-[#fbf7ee] transition-all cursor-pointer shadow-2xs"
+                        >
+                          <Calendar className="w-3 h-3 text-[#b88b2a]" />
+                          <span>Save to Calendar</span>
+                        </button>
+                      </div>
                     </div>
                   )}
 
                   {/* RIGHT COLUMN */}
                   {isDetailsRight ? (
-                    /* Event Details on Right */
-                    <div className="flex flex-col items-center text-center px-1 sm:px-2 z-10">
+                    /* Event Details on Right (padded further to the right away from the line) */
+                    <div className="flex flex-col items-center text-center pl-10 sm:pl-14 pr-0 z-10 w-full">
                       <h3 className="font-cinzel text-base sm:text-lg font-bold uppercase tracking-[0.14em] text-[#1c232f]">
                         {item.name}
                       </h3>
 
-                      <div className="mt-2 space-y-1 font-serif-body text-[11.5px] sm:text-[12.5px] text-stone-700">
-                        <div className="flex items-center justify-center gap-1.5">
+                      <div className="mt-2 space-y-1.5 font-serif-body text-[11.5px] sm:text-[12.5px] text-stone-700 inline-flex flex-col items-start text-left mx-auto">
+                        <div className="flex items-center gap-2">
                           <Calendar className="w-3.5 h-3.5 text-[#b88b2a] shrink-0" />
-                          <span>{item.date}</span>
+                          <span className="font-medium text-stone-800">{item.date}</span>
                         </div>
-                        <div className="flex items-center justify-center gap-1.5">
+                        <div className="flex items-center gap-2">
                           <Clock className="w-3.5 h-3.5 text-[#b88b2a] shrink-0" />
                           <span>{item.time}</span>
                         </div>
-                        <div className="flex items-center justify-center gap-1.5 pt-0.5">
-                          <MapPin className="w-3.5 h-3.5 text-[#b88b2a] shrink-0" />
-                          <div className="flex flex-col leading-tight">
+                        <div className="flex items-start gap-2 pt-0.5">
+                          <MapPin className="w-3.5 h-3.5 text-[#b88b2a] shrink-0 mt-0.5" />
+                          <div className="flex flex-col leading-tight text-left">
                             <span className="font-cinzel font-bold text-[10px] sm:text-[10.5px] uppercase tracking-wider text-stone-800">
                               {item.venueName}
                             </span>
@@ -535,17 +578,32 @@ export function Ceremonies() {
                             </span>
                           </div>
                         </div>
+                        <div className="flex items-center gap-2 pt-0.5">
+                          <Shirt className="w-3.5 h-3.5 text-[#b88b2a] shrink-0" />
+                          <span className="italic text-[#80640f] text-[11px] sm:text-[12px] font-medium">{item.dressCode}</span>
+                        </div>
                       </div>
 
-                      {/* View Location Link */}
-                      <button
-                        type="button"
-                        onClick={() => setSelectedEvent(item.fullData)}
-                        className="mt-2.5 inline-flex items-center gap-1 font-cinzel text-[10px] sm:text-[10.5px] font-bold text-[#b88b2a] hover:text-[#997a15] tracking-wider transition-colors cursor-pointer"
-                      >
-                        <span>View Location</span>
-                        <span>→</span>
-                      </button>
+                      {/* Action Links (View Location & Save to Calendar) */}
+                      <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedEvent(item.fullData)}
+                          className="inline-flex items-center gap-1 font-cinzel text-[10px] sm:text-[10.5px] font-bold text-[#b88b2a] hover:text-[#997a15] tracking-wider transition-colors cursor-pointer"
+                        >
+                          <span>View Location</span>
+                          <span>→</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleSaveEventToCalendar(item)}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-[#d4af37]/60 bg-[#fdfcf9]/95 px-3 py-1 font-cinzel text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider text-[#997a15] hover:bg-[#fbf7ee] transition-all cursor-pointer shadow-2xs"
+                        >
+                          <Calendar className="w-3 h-3 text-[#b88b2a]" />
+                          <span>Save to Calendar</span>
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     /* Empty Spacer on Right (Arch Node sits in center) */

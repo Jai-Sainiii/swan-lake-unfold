@@ -5,6 +5,7 @@ import story3 from "@/assets/story-3.jpg";
 import story4 from "@/assets/story-4.jpg";
 import swanStoryFinale from "@/assets/swan-story-finale.png";
 import { TornEdge } from "@/components/wedding/TornEdge";
+import drapeCornerImg from "@/assets/drape-corner.png";
 
 interface StoryCardItem {
   chapter: string;
@@ -152,8 +153,20 @@ export function Story() {
       id="story"
       className="relative w-full bg-[#faf6ee] px-3 sm:px-4 pt-14 pb-20 text-center select-none overflow-hidden"
     >
-      {/* Top Torn Deckle Paper Divider with Gilded Gold Foil Accent */}
-      <TornEdge position="top" variant={1} showGoldFoil={true} className="-top-3 z-30" />
+      {/* ── TOP CORNER FLORAL DRAPES (True Top Corners) ── */}
+      {/* Top-Right Floral Drape */}
+      <img
+        src={drapeCornerImg}
+        alt="Top Right Floral Drape"
+        className="pointer-events-none absolute top-[-35px] right-[-30px] w-32 sm:w-44 h-auto mix-blend-multiply opacity-80 z-20 select-none"
+      />
+
+      {/* Top-Left Floral Drape (Flipped 180 Degrees) */}
+      <img
+        src={drapeCornerImg}
+        alt="Top Left Floral Drape"
+        className="pointer-events-none absolute top-[-35px] left-[-30px] w-32 sm:w-44 h-auto mix-blend-multiply opacity-80 z-20 select-none -scale-x-100"
+      />
 
       {/* ── Soft Ethereal Blue Watercolor Clouds in Background Corners ── */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">

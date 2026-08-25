@@ -40,7 +40,7 @@ export function Welcome() {
         <img
           src={topFloralCanopy}
           alt="Top Floral Canopy"
-          className="w-full max-h-36 sm:max-h-44 object-cover object-top drop-shadow-sm opacity-95"
+          className="w-full h-auto object-contain object-top drop-shadow-xs opacity-95 mix-blend-multiply"
         />
       </div>
       {/* ── Royal Swan Lake Ornate Frame Background (Zoomed out) ── */}

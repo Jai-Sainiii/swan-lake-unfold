@@ -97,7 +97,7 @@ export const ceremonies: CeremonyItem[] = [
     ],
     detail:
       "An afternoon filled with fragrant henna swirls, live dhol beats, Rajasthani folk dancers, and cooling lake breezes. Refreshments and traditional delicacies will be served.",
-    icon: "🌿",
+    icon: "leaf",
     dressCodeDetail: "Kurta pyjamas, playful lehengas & vibrant ethnic prints",
   },
   {
@@ -118,7 +118,7 @@ export const ceremonies: CeremonyItem[] = [
     ],
     detail:
       "Family performances, musical harmonies over the lake waters, cocktails, signature Rajasthani appetizers, and dancing under the crystal chandeliers.",
-    icon: "✨",
+    icon: "sparkles",
     dressCodeDetail: "Indo-western tuxedos, mirror-work lehengas & sequined gowns",
   },
   {
@@ -139,7 +139,7 @@ export const ceremonies: CeremonyItem[] = [
     ],
     detail:
       "The arrival of the Baraat across the lake, exchanging varmalas surrounded by floating lotus lamps, chanting sacred mantras by sunset, and seven vows for a lifetime.",
-    icon: "🕊️",
+    icon: "dove",
     dressCodeDetail: "Heritage Sherwanis with Safas, Banarasi/Kanjivaram Silk Sarees & Royal Lehengas",
   },
   {
@@ -160,7 +160,7 @@ export const ceremonies: CeremonyItem[] = [
     ],
     detail:
       "A banquet featuring royal Mewari and international gourmet delicacies, acoustic live instruments, celebratory toasts, and stargazing across Lake Pichola.",
-    icon: "👑",
+    icon: "crown",
     dressCodeDetail: "Bandhgalas, tuxedos, embroidered evening wear & silk couture",
   },
 ];

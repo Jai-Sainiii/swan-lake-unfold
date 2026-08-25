@@ -1,5 +1,6 @@
 import { useId } from "react";
 import floralCorner from "@/assets/floral-corner.png";
+import destinationVillaImg from "@/assets/destination-villa.png";
 
 /**
  * Hand-painted Watercolor Floral Corner Decoration (White roses, ribbons, sage leaves)
@@ -50,203 +51,14 @@ export function RooftopVenueIllustration({
 }: {
   className?: string;
 }) {
-  const id = useId();
-
   return (
     <div className={`relative pointer-events-none select-none ${className}`}>
-      <svg
-        viewBox="0 0 360 280"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-auto drop-shadow-md filter"
-      >
-        <defs>
-          {/* Soft Watercolor Sky Wash */}
-          <linearGradient id={`sky-${id}`} x1="0%" y1="0%" x2="100%" y2="80%">
-            <stop offset="0%" stopColor="#bae6fd" stopOpacity="0.45" />
-            <stop offset="50%" stopColor="#e0f2fe" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#faf8f5" stopOpacity="0" />
-          </linearGradient>
-
-          {/* Classical Limestone Facade */}
-          <linearGradient id={`facade-${id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#fdfaf3" />
-            <stop offset="40%" stopColor="#f7efe1" />
-            <stop offset="100%" stopColor="#e8ded0" />
-          </linearGradient>
-
-          {/* Turquoise Rooftop Pool Water */}
-          <linearGradient id={`poolWater-${id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="60%" stopColor="#0284c7" />
-            <stop offset="100%" stopColor="#0369a1" />
-          </linearGradient>
-
-          {/* Glass Pavilion Penthouse */}
-          <linearGradient id={`glass-${id}`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#475569" stopOpacity="0.85" />
-            <stop offset="100%" stopColor="#1e293b" stopOpacity="0.95" />
-          </linearGradient>
-
-          {/* Lush Greenery Radial Gradient */}
-          <radialGradient id={`treeGreen-${id}`} cx="40%" cy="40%" r="60%">
-            <stop offset="0%" stopColor="#86efac" />
-            <stop offset="55%" stopColor="#22c55e" />
-            <stop offset="100%" stopColor="#15803d" />
-          </radialGradient>
-        </defs>
-
-        {/* 1. Loose Sky Watercolor Splash */}
-        <path
-          d="M 10 70 Q 80 15, 180 30 T 340 50 Q 350 140, 310 180 T 150 200 Q 20 180, 10 120 Z"
-          fill={`url(#sky-${id})`}
-        />
-
-        {/* 2. Classical Architectural Building Facade (Curved Corner Perspective) */}
-        {/* Main curved building body */}
-        <path
-          d="M 30 200 L 30 115 Q 180 110, 290 140 C 315 147, 335 165, 340 195 L 340 270 L 30 270 Z"
-          fill={`url(#facade-${id})`}
-          stroke="#78350f"
-          strokeWidth="0.8"
-          strokeOpacity="0.3"
-        />
-
-        {/* Cornice & Stone Molding Lines */}
-        <path
-          d="M 30 135 Q 180 130, 290 158 C 315 165, 335 180, 340 205"
-          stroke="#92400e"
-          strokeWidth="1.8"
-          strokeOpacity="0.4"
-          fill="none"
-        />
-        <path
-          d="M 30 142 Q 180 137, 290 164 C 315 171, 335 185, 340 210"
-          stroke="#92400e"
-          strokeWidth="0.9"
-          strokeOpacity="0.3"
-          fill="none"
-        />
-
-        {/* Classical French Windows & Balconies */}
-        <g stroke="#451a03" strokeWidth="0.7" strokeOpacity="0.5" fill="#f5ede0">
-          {/* Window Row 1 */}
-          <rect x="50" y="160" width="22" height="42" rx="1.5" fill="#0f172a" fillOpacity="0.65" />
-          <rect x="95" y="165" width="22" height="42" rx="1.5" fill="#0f172a" fillOpacity="0.65" />
-          <rect x="145" y="172" width="22" height="42" rx="1.5" fill="#0f172a" fillOpacity="0.65" />
-          <rect x="195" y="180" width="22" height="42" rx="1.5" fill="#0f172a" fillOpacity="0.65" />
-          <rect x="245" y="190" width="22" height="42" rx="1.5" fill="#0f172a" fillOpacity="0.65" />
-          <rect x="290" y="202" width="22" height="42" rx="1.5" fill="#0f172a" fillOpacity="0.65" />
-
-          {/* Window Panes Grid */}
-          <line x1="61" y1="160" x2="61" y2="202" stroke="#e2e8f0" strokeWidth="0.6" />
-          <line x1="50" y1="180" x2="72" y2="180" stroke="#e2e8f0" strokeWidth="0.6" />
-          <line x1="106" y1="165" x2="106" y2="207" stroke="#e2e8f0" strokeWidth="0.6" />
-          <line x1="95" y1="185" x2="117" y2="185" stroke="#e2e8f0" strokeWidth="0.6" />
-          <line x1="156" y1="172" x2="156" y2="214" stroke="#e2e8f0" strokeWidth="0.6" />
-          <line x1="145" y1="192" x2="167" y2="192" stroke="#e2e8f0" strokeWidth="0.6" />
-          <line x1="206" y1="180" x2="206" y2="222" stroke="#e2e8f0" strokeWidth="0.6" />
-          <line x1="195" y1="200" x2="217" y2="200" stroke="#e2e8f0" strokeWidth="0.6" />
-          <line x1="256" y1="190" x2="256" y2="232" stroke="#e2e8f0" strokeWidth="0.6" />
-          <line x1="245" y1="210" x2="267" y2="210" stroke="#e2e8f0" strokeWidth="0.6" />
-        </g>
-
-        {/* Wrought Iron / Stone Balustrade Railings */}
-        <g stroke="#78350f" strokeWidth="0.8" strokeOpacity="0.6">
-          <rect x="46" y="190" width="30" height="16" fill="#f8fafc" fillOpacity="0.4" />
-          <rect x="91" y="195" width="30" height="16" fill="#f8fafc" fillOpacity="0.4" />
-          <rect x="141" y="202" width="30" height="16" fill="#f8fafc" fillOpacity="0.4" />
-          <rect x="191" y="210" width="30" height="16" fill="#f8fafc" fillOpacity="0.4" />
-          <rect x="241" y="220" width="30" height="16" fill="#f8fafc" fillOpacity="0.4" />
-          <rect x="286" y="232" width="30" height="16" fill="#f8fafc" fillOpacity="0.4" />
-        </g>
-
-        {/* 3. Left Penthouse / Glass Pavilion */}
-        <polygon
-          points="25,125 25,65 130,55 130,118"
-          fill={`url(#glass-${id})`}
-          stroke="#0f172a"
-          strokeWidth="0.8"
-        />
-        {/* Penthouse Glass Panels Grid */}
-        <g stroke="#94a3b8" strokeWidth="0.5" strokeOpacity="0.7">
-          <line x1="50" y1="63" x2="50" y2="123" />
-          <line x1="75" y1="60" x2="75" y2="120" />
-          <line x1="100" y1="58" x2="100" y2="119" />
-          <line x1="25" y1="85" x2="130" y2="78" />
-          <line x1="25" y1="105" x2="130" y2="98" />
-        </g>
-
-        {/* 4. Luxury Rooftop Swimming Pool */}
-        {/* Pool Deck */}
-        <polygon
-          points="60,120 185,110 250,132 120,145"
-          fill="#dcd3c4"
-          stroke="#78350f"
-          strokeWidth="0.6"
-        />
-        {/* Pool Water Body */}
-        <polygon
-          points="68,124 175,115 235,133 125,142"
-          fill={`url(#poolWater-${id})`}
-          stroke="#0284c7"
-          strokeWidth="0.8"
-        />
-        {/* Pool Water Shimmer Reflections */}
-        <path d="M 85 127 Q 120 123, 155 125" stroke="#ffffff" strokeWidth="1.2" strokeLinecap="round" opacity="0.85" />
-        <path d="M 100 133 Q 145 128, 190 131" stroke="#ffffff" strokeWidth="1.2" strokeLinecap="round" opacity="0.85" />
-        <path d="M 130 138 Q 170 134, 210 136" stroke="#ffffff" strokeWidth="1" strokeLinecap="round" opacity="0.75" />
-
-        {/* Pool Glass Safety Railing on Deck */}
-        <line x1="68" y1="118" x2="175" y2="109" stroke="#93c5fd" strokeWidth="1.2" opacity="0.8" />
-        <line x1="68" y1="118" x2="68" y2="124" stroke="#93c5fd" strokeWidth="1" opacity="0.8" />
-        <line x1="175" y1="109" x2="175" y2="115" stroke="#93c5fd" strokeWidth="1" opacity="0.8" />
-
-        {/* 5. Rooftop Garden Trees & Topiary Shrubs */}
-        {/* Climbing Ivy on Glass Penthouse */}
-        <path d="M 125 60 Q 135 75, 130 95 Q 128 110, 132 120" stroke="#15803d" strokeWidth="1.8" strokeLinecap="round" />
-
-        {/* Potted Topiary Trees around pool terrace */}
-        {/* Tree 1: Left of Pool */}
-        <circle cx="55" cy="115" r="14" fill={`url(#treeGreen-${id})`} />
-        <circle cx="50" cy="110" r="10" fill="#4ade80" fillOpacity="0.8" />
-        <line x1="55" y1="115" x2="55" y2="126" stroke="#5c2d13" strokeWidth="1.5" />
-
-        {/* Tree 2: Center Back of Pool */}
-        <circle cx="160" cy="100" r="16" fill={`url(#treeGreen-${id})`} />
-        <circle cx="155" cy="95" r="11" fill="#4ade80" fillOpacity="0.8" />
-        <line x1="160" y1="100" x2="160" y2="112" stroke="#5c2d13" strokeWidth="1.5" />
-
-        {/* Tree 3: Center-Right on Terrace */}
-        <circle cx="215" cy="112" r="18" fill={`url(#treeGreen-${id})`} />
-        <circle cx="210" cy="106" r="12" fill="#4ade80" fillOpacity="0.8" />
-        <line x1="215" y1="112" x2="215" y2="128" stroke="#5c2d13" strokeWidth="1.8" />
-
-        {/* Garden Shrubs lining the curved rooftop border */}
-        <path
-          d="M 235 130 Q 280 135, 320 160 C 330 168, 335 178, 338 190"
-          stroke="#16a34a"
-          strokeWidth="9"
-          strokeLinecap="round"
-          strokeOpacity="0.75"
-        />
-        <path
-          d="M 240 128 Q 285 133, 322 158"
-          stroke="#86efac"
-          strokeWidth="5"
-          strokeLinecap="round"
-          strokeOpacity="0.8"
-        />
-
-        {/* Fine Ink Sketch Line Accents */}
-        <path
-          d="M 30 135 C 150 130, 270 150, 340 195"
-          stroke="#451a03"
-          strokeWidth="0.8"
-          strokeOpacity="0.4"
-          fill="none"
-        />
-      </svg>
+      <img
+        src={destinationVillaImg}
+        alt="Hand-painted Watercolor Rooftop Villa & Pool"
+        className="w-full h-auto object-contain mix-blend-multiply drop-shadow-md filter contrast-[1.02] brightness-[1.01]"
+        loading="lazy"
+      />
     </div>
   );
 }
