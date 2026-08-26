@@ -155,8 +155,10 @@ function Invitation() {
             {/* Scrollable Screen Content Container */}
             <div
               ref={scrollContainerRef}
-              className={`relative h-full w-full overflow-x-hidden lg:rounded-[2.7rem] bg-[#faf8f5] text-[#1c232f] ${
-                opening ? "overflow-y-hidden select-none" : "overflow-y-auto custom-scrollbar"
+              className={`relative w-full overflow-x-hidden bg-[#faf8f5] text-[#1c232f] ${
+                opening
+                  ? "h-screen overflow-y-hidden select-none"
+                  : "lg:h-full lg:overflow-y-auto lg:rounded-[2.7rem] custom-scrollbar"
               }`}
             >
               {/* Contained Background Atmosphere */}

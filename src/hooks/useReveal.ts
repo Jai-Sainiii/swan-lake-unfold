@@ -31,7 +31,7 @@ export function useReveal(enabled = true, scroller?: HTMLElement | null) {
           scrollTrigger: {
             trigger: el,
             scroller: targetScroller,
-            start: "top 96%",
+            start: "top 99%",
             once: true,
           },
         });
@@ -70,8 +70,8 @@ export function useReveal(enabled = true, scroller?: HTMLElement | null) {
       },
       {
         root: scroller || null,
-        rootMargin: "50px 0px 50px 0px",
-        threshold: 0.05,
+        rootMargin: "200px 0px 200px 0px",
+        threshold: 0.01,
       }
     );
 
