@@ -7,7 +7,7 @@ export function useSmoothScroll(containerRef?: RefObject<HTMLElement | null>, en
     if (prefersReducedMotion() || !enabled) return;
     const { gsap, ScrollTrigger } = getGsap();
 
-    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
+    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 640;
     const container = isDesktop && containerRef?.current ? containerRef.current : null;
     const mainContent = container
       ? (container.querySelector("main") as HTMLElement) || container
@@ -51,7 +51,37 @@ export function useSmoothScroll(containerRef?: RefObject<HTMLElement | null>, en
       ScrollTrigger.refresh();
     }, 1500);
 
+    // Forward outer window/backdrop wheel events directly to container to ensure 1:1 identical scroll speed and momentum
+    const handleGlobalWheel = (e: WheelEvent) => {
+      if (!e.isTrusted || !container) return;
+      if (container.contains(e.target as Node)) {
+        return;
+      }
+      e.preventDefault();
+      container.dispatchEvent(
+        new WheelEvent("wheel", {
+          deltaX: e.deltaX,
+          deltaY: e.deltaY,
+          deltaZ: e.deltaZ,
+          deltaMode: e.deltaMode,
+          clientX: e.clientX,
+          clientY: e.clientY,
+          screenX: e.screenX,
+          screenY: e.screenY,
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+    };
+
+    if (isDesktop && container) {
+      window.addEventListener("wheel", handleGlobalWheel, { passive: false });
+    }
+
     return () => {
+      if (isDesktop && container) {
+        window.removeEventListener("wheel", handleGlobalWheel);
+      }
       clearTimeout(t1);
       clearTimeout(t2);
       resizeObserver.disconnect();

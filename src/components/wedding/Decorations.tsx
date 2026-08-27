@@ -1,6 +1,6 @@
 import { useId } from "react";
-import floralCorner from "@/assets/floral-corner.png";
-import destinationVillaImg from "@/assets/destination-villa.png";
+import floralCorner from "@/assets/floral-corner.webp";
+import destinationVillaImg from "@/assets/destination-villa.webp";
 
 /**
  * Hand-painted Watercolor Floral Corner Decoration (White roses, ribbons, sage leaves)

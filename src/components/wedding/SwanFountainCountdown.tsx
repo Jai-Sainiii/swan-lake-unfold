@@ -1,4 +1,4 @@
-import swanFountainImg from "@/assets/swan-fountain-frame.png";
+import swanFountainImg from "@/assets/swan-fountain-frame.webp";
 
 interface CountdownParts {
   d: number;

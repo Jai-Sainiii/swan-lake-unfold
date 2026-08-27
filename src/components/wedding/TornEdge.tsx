@@ -22,6 +22,7 @@ export function TornEdge({
     1: "M 0 25 Q 40 12, 85 22 T 180 14 T 275 26 T 360 16 L 360 40 L 0 40 Z",
     2: "M 0 20 Q 45 30, 95 18 T 190 28 T 280 15 T 360 22 L 360 40 L 0 40 Z",
     3: "M 0 16 Q 50 8, 100 24 T 195 12 T 285 25 T 360 18 L 360 40 L 0 40 Z",
+    4: "M 0 24 Q 42 14, 85 22 T 190 16 T 280 22 Q 325 18, 360 26 L 360 40 L 0 40 Z",
   };
 
   const pathD = paths[variant];
@@ -72,13 +73,15 @@ export function TornEdge({
         )}
 
         {/* Main Torn Paper Surface Body */}
-        <path
-          d={pathD}
-          fill={fillColor}
-          stroke="#ffffff"
-          strokeWidth="0.8"
-          strokeOpacity="0.6"
-        />
+        {fillColor !== "none" && fillColor !== "transparent" && (
+          <path
+            d={pathD}
+            fill={fillColor}
+            stroke="#ffffff"
+            strokeWidth="0.8"
+            strokeOpacity="0.6"
+          />
+        )}
       </svg>
     </div>
   );

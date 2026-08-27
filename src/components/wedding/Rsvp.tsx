@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { couple } from "@/lib/wedding";
 import { TornEdge } from "@/components/wedding/TornEdge";
-import ceremonySwanRaw from "@/assets/ceremony-swan-raw.png";
+import ceremonySwanRaw from "@/assets/ceremony-swan-raw.webp";
 
 interface HeartParticle {
   id: number;
@@ -206,9 +206,6 @@ export function Rsvp() {
           </div>
         )}
       </div>
-
-      {/* Bottom Deckle Paper Divider */}
-      <TornEdge position="bottom" variant={2} showGoldFoil={true} className="-bottom-3 z-30" />
     </section>
   );
 }

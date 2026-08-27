@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { couple } from "@/lib/wedding";
 import { ChevronDown, Sparkles } from "lucide-react";
 import { SwanFountainCountdown } from "@/components/wedding/SwanFountainCountdown";
-import welcomeBg from "@/assets/welcome-bg.jpg";
-import topFloralCanopy from "@/assets/top-floral-canopy.png";
+import welcomeBg from "@/assets/welcome-bg.webp";
+import topFloralCanopy from "@/assets/top-floral-canopy.webp";
 
 function useCountdown(target: string) {
   const [parts, setParts] = useState<{ d: number; h: number; m: number; s: number } | null>(null);

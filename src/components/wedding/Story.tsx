@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import story1 from "@/assets/story-1.png";
-import story2 from "@/assets/story-2.jpg";
-import story3 from "@/assets/story-3.jpg";
-import story4 from "@/assets/story-4.png";
-import swanStoryFinale from "@/assets/swan-story-finale.png";
+import { useRef } from "react";
+import { useTimelinePath } from "@/hooks/useTimelinePath";
+import story1 from "@/assets/story-1.webp";
+import story2 from "@/assets/story-2.webp";
+import story3 from "@/assets/story-3.webp";
+import story4 from "@/assets/story-4.webp";
+import swanStoryFinale from "@/assets/swan-story-finale.webp";
 import { TornEdge } from "@/components/wedding/TornEdge";
-import drapeCornerImg from "@/assets/drape-corner.png";
+import drapeCornerImg from "@/assets/drape-corner.webp";
 
 interface StoryCardItem {
   chapter: string;
@@ -602,31 +603,18 @@ function StoryBackgroundFloraDoodles() {
   );
 }
 
-export function Story() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+export function Story({ scroller }: { scroller?: HTMLElement | null } = {}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const totalDist = rect.height;
-      const currentProgress = Math.min(
-        1,
-        Math.max(0, (windowHeight * 0.7 - rect.top) / totalDist)
-      );
-      setScrollProgress(currentProgress);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  useTimelinePath({
+    containerRef,
+    pathRef,
+    scroller,
+  });
 
   return (
     <section
-      ref={sectionRef}
       id="story"
       className="relative w-full bg-[#faf6ee] px-3 sm:px-4 pt-14 pb-20 text-center select-none overflow-hidden"
     >
@@ -680,7 +668,7 @@ export function Story() {
       </header>
 
       {/* ── CENTRAL S-CURVE THREAD & ALTERNATING KEEPSAKE CARDS ── */}
-      <div className="relative mx-auto max-w-[380px] sm:max-w-[420px] mt-6 z-10">
+      <div ref={containerRef} className="relative mx-auto max-w-[380px] sm:max-w-[420px] mt-6 z-10">
         {/* Continuous S-Curve Golden Timeline Path weaving between alternating cards */}
         <div className="pointer-events-none absolute inset-0 w-full h-full -z-10">
           <svg
@@ -689,6 +677,15 @@ export function Story() {
             fill="none"
             className="w-full h-full text-[#c49a38]"
           >
+            <defs>
+              <linearGradient id="storyGoldGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#f7e7b8" />
+                <stop offset="25%" stopColor="#d4af37" />
+                <stop offset="75%" stopColor="#e5c05b" />
+                <stop offset="100%" stopColor="#b88b2a" />
+              </linearGradient>
+            </defs>
+
             {/* Background dashed path */}
             <path
               d="M 220 0 
@@ -697,23 +694,22 @@ export function Story() {
                  C 180 980, 320 1120, 120 1280 
                  C 50 1420, 220 1520, 190 1600"
               stroke="#caa44b"
-              strokeWidth="1.4"
-              strokeDasharray="5 3.5"
-              opacity="0.55"
+              strokeWidth="1.6"
+              strokeDasharray="6 4"
+              opacity="0.45"
             />
             {/* Animated gold thread */}
             <path
+              ref={pathRef}
               d="M 220 0 
                  C 320 120, 90 260, 120 400 
                  C 150 560, 340 700, 260 840 
                  C 180 980, 320 1120, 120 1280 
                  C 50 1420, 220 1520, 190 1600"
-              stroke="#d4af37"
-              strokeWidth="2"
-              strokeDasharray="1600"
-              strokeDashoffset={1600 * (1 - scrollProgress)}
-              className="transition-[stroke-dashoffset] duration-300 ease-out"
-              opacity="0.9"
+              stroke="url(#storyGoldGlow)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              opacity="0.95"
             />
           </svg>
         </div>

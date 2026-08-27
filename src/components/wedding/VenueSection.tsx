@@ -20,9 +20,6 @@ export function VenueSection() {
       id="venue"
       className="relative w-full bg-[#faf6ee] px-3 sm:px-4 pt-16 pb-24 text-center select-none overflow-hidden"
     >
-      {/* Top Deckle Paper Divider */}
-      <TornEdge position="top" variant={2} showGoldFoil={true} className="-top-3 z-30" />
-
       {/* Soft Ethereal Background Wash */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(253,248,238,0.85)_0%,rgba(250,246,238,0.4)_60%,transparent_100%)]" />
 

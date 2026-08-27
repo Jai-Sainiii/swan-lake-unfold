@@ -1,8 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { ceremonies, venue, couple, type CeremonyItem } from "@/lib/wedding";
 import { Calendar, Clock, MapPin, Sparkles, Shirt, X } from "lucide-react";
 import { TornEdge } from "@/components/wedding/TornEdge";
-import ceremonySwanRaw from "@/assets/ceremony-swan-raw.png";
+import ceremonySwanRaw from "@/assets/ceremony-swan-raw.webp";
+import haldiCeremonyImg from "@/assets/haldi-ceremony.webp";
+import mehendiCeremonyImg from "@/assets/mehendi-ceremony.webp";
+import sangeetCeremonyImg from "@/assets/sangeet-ceremony.webp";
+import { useTimelinePath } from "@/hooks/useTimelinePath";
 
 /**
  * Top Header Filigree Flourish (Golden Baroque Crown)
@@ -154,6 +158,66 @@ function WaterRippleRings() {
 }
 
 /**
+ * Watercolor Haldi Paste in Brass Bowl with Marigolds and Silk Tassels
+ */
+function HaldiCeremonyArtwork({ position = "left" }: { position?: "left" | "right" }) {
+  const isRight = position === "right";
+  return (
+    <div
+      className={`absolute top-1/2 -translate-y-1/2 ${
+        isRight ? "right-1 sm:right-2 translate-x-full" : "left-1 sm:left-2 -translate-x-full"
+      } w-24 sm:w-28 h-auto pointer-events-none select-none z-20 drop-shadow-sm ${isRight ? "-scale-x-100" : ""}`}
+    >
+      <img
+        src={haldiCeremonyImg}
+        alt="Haldi Ceremony Artwork"
+        className="w-full h-auto object-contain mix-blend-multiply"
+      />
+    </div>
+  );
+}
+
+/**
+ * Watercolor Henna Painted Hands with Green Silk Drape & Mehendi Cone
+ */
+function MehendiCeremonyArtwork({ position = "right" }: { position?: "left" | "right" }) {
+  const isRight = position === "right";
+  return (
+    <div
+      className={`absolute top-1/2 -translate-y-1/2 ${
+        isRight ? "right-1 sm:right-2 translate-x-full" : "left-1 sm:left-2 -translate-x-full"
+      } w-24 sm:w-28 h-auto pointer-events-none select-none z-20 drop-shadow-sm ${isRight ? "" : "-scale-x-100"}`}
+    >
+      <img
+        src={mehendiCeremonyImg}
+        alt="Mehendi Ceremony Artwork"
+        className="w-full h-auto object-contain mix-blend-multiply"
+      />
+    </div>
+  );
+}
+
+/**
+ * Watercolor Sitar/Veena & Tabla with Pink Silk Drape & Musical Notes
+ */
+function SangeetCeremonyArtwork({ position = "left" }: { position?: "left" | "right" }) {
+  const isRight = position === "right";
+  return (
+    <div
+      className={`absolute top-1/2 -translate-y-1/2 ${
+        isRight ? "right-1 sm:right-2 translate-x-full" : "left-1 sm:left-2 -translate-x-full"
+      } w-24 sm:w-28 h-auto pointer-events-none select-none z-20 drop-shadow-sm ${isRight ? "-scale-x-100" : ""}`}
+    >
+      <img
+        src={sangeetCeremonyImg}
+        alt="Sangeet Ceremony Artwork"
+        className="w-full h-auto object-contain mix-blend-multiply"
+      />
+    </div>
+  );
+}
+
+/**
  * Single White Swan Floating Serenely on Lake Pichola
  */
 function SingleSwanOnWater({ position = "left" }: { position?: "left" | "right" }) {
@@ -204,16 +268,17 @@ interface CelebrationEvent {
   dressCode: string;
   motifType: "marigold" | "mehendi" | "music" | "lotus";
   side: "left" | "right"; // Details side
+  hasHaldiArt?: boolean;
+  hasMehendiArt?: boolean;
+  hasSangeetArt?: boolean;
   hasLeftSwan?: boolean;
   hasRightSwan?: boolean;
   hasSwansPair?: boolean;
   fullData: CeremonyItem;
 }
 
-export function Ceremonies() {
+export function Ceremonies({ scroller }: { scroller?: HTMLElement | null } = {}) {
   const [selectedEvent, setSelectedEvent] = useState<CeremonyItem | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   const handleSaveEventToCalendar = (item: CelebrationEvent) => {
     const title = encodeURIComponent(`${item.name} - ${couple.bride} & ${couple.groom}'s Wedding`);
@@ -236,7 +301,7 @@ export function Ceremonies() {
       dressCode: "Sunshine Yellow & Ethnic",
       motifType: "marigold",
       side: "right", // Details on Right
-      hasLeftSwan: true,
+      hasHaldiArt: true,
       fullData: ceremonies[0]!,
     },
     {
@@ -250,7 +315,7 @@ export function Ceremonies() {
       dressCode: "Floral Pastels & Festive",
       motifType: "mehendi",
       side: "left", // Details on Left
-      hasRightSwan: true,
+      hasMehendiArt: true,
       fullData: ceremonies[0]!,
     },
     {
@@ -264,7 +329,7 @@ export function Ceremonies() {
       dressCode: "Glitz & Glamour Indo-Western",
       motifType: "music",
       side: "right", // Details on Right
-      hasLeftSwan: true,
+      hasSangeetArt: true,
       fullData: ceremonies[1]!,
     },
     {
@@ -283,23 +348,14 @@ export function Ceremonies() {
     },
   ];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const totalDist = rect.height;
-      const currentProgress = Math.min(
-        1,
-        Math.max(0, (windowHeight * 0.7 - rect.top) / totalDist)
-      );
-      setScrollProgress(currentProgress);
-    };
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  useTimelinePath({
+    containerRef,
+    pathRef,
+    scroller,
+  });
 
   const createGoogleCalendarUrl = (c: CeremonyItem) => {
     const title = encodeURIComponent(`${c.name} — ${couple.bride} & ${couple.groom}'s Wedding`);
@@ -310,7 +366,6 @@ export function Ceremonies() {
 
   return (
     <section
-      ref={sectionRef}
       id="ceremonies"
       className="relative w-full bg-[#faf6ee] px-3 sm:px-4 pt-14 pb-20 text-center select-none overflow-hidden"
     >
@@ -346,7 +401,7 @@ export function Ceremonies() {
       </header>
 
       {/* ── TIMELINE CONTAINER WITH CENTRAL S-CURVE THREAD ── */}
-      <div className="relative mx-auto max-w-[400px] sm:max-w-[460px] mt-4 z-10">
+      <div ref={containerRef} className="relative mx-auto max-w-[400px] sm:max-w-[460px] mt-4 z-10">
         {/* Continuous Sinusoidal Asymmetrical Golden Thread SVG */}
         <div className="pointer-events-none absolute inset-0 w-full h-full z-0">
           <svg
@@ -355,6 +410,16 @@ export function Ceremonies() {
             fill="none"
             className="w-full h-full text-[#c49a38]"
           >
+            <defs>
+              <linearGradient id="ceremonyGoldGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#f7e7b8" />
+                <stop offset="25%" stopColor="#d4af37" />
+                <stop offset="75%" stopColor="#e5c05b" />
+                <stop offset="100%" stopColor="#b88b2a" />
+              </linearGradient>
+            </defs>
+
+            {/* Background dashed path */}
             <path
               d="M 180 0 
                  C 180 60, 90 90, 90 160 
@@ -363,24 +428,23 @@ export function Ceremonies() {
                  C 90 960, 270 1020, 270 1160 
                  C 270 1260, 180 1320, 180 1400"
               stroke="#caa44b"
-              strokeWidth="1.2"
-              strokeDasharray="4 2.5"
-              opacity="0.55"
+              strokeWidth="1.5"
+              strokeDasharray="5 3.5"
+              opacity="0.45"
             />
             {/* Scroll-Revealed Gold River Line */}
             <path
+              ref={pathRef}
               d="M 180 0 
                  C 180 60, 90 90, 90 160 
                  C 90 280, 270 340, 270 480 
                  C 270 620, 90 680, 90 820 
                  C 90 960, 270 1020, 270 1160 
                  C 270 1260, 180 1320, 180 1400"
-              stroke="#d4af37"
-              strokeWidth="1.8"
-              strokeDasharray="1400"
-              strokeDashoffset={1400 * (1 - scrollProgress)}
-              className="transition-[stroke-dashoffset] duration-300 ease-out"
-              opacity="0.9"
+              stroke="url(#ceremonyGoldGlow)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              opacity="0.95"
             />
           </svg>
         </div>
@@ -404,7 +468,10 @@ export function Ceremonies() {
                     {/* Water Ripples Base */}
                     <WaterRippleRings />
 
-                    {/* Single Swan / Swans Pair Overlays */}
+                    {/* Single Swan / Swans Pair / Custom Ceremony Artworks Overlays */}
+                    {item.hasHaldiArt && <HaldiCeremonyArtwork position={item.side === "right" ? "left" : "right"} />}
+                    {item.hasMehendiArt && <MehendiCeremonyArtwork position={item.side === "right" ? "left" : "right"} />}
+                    {item.hasSangeetArt && <SangeetCeremonyArtwork position={item.side === "right" ? "left" : "right"} />}
                     {item.hasLeftSwan && <SingleSwanOnWater position="left" />}
                     {item.hasRightSwan && <SingleSwanOnWater position="right" />}
                     {item.hasSwansPair && <SwansPairHeartOnWater />}
@@ -684,9 +751,6 @@ export function Ceremonies() {
           </div>
         </div>
       )}
-
-      {/* Bottom Deckle Paper Divider transitioning into Gallery Section */}
-      <TornEdge position="bottom" variant={1} showGoldFoil={true} className="-bottom-3 z-30" />
     </section>
   );
 }

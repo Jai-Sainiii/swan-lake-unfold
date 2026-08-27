@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import g1 from "@/assets/gallery-1.jpg";
-import g2 from "@/assets/gallery-2.jpg";
-import g3 from "@/assets/gallery-3.png";
-import g4 from "@/assets/gallery-4.png";
-import g5 from "@/assets/gallery-5.png";
+import g1 from "@/assets/gallery-1.webp";
+import g2 from "@/assets/gallery-2.webp";
+import g3 from "@/assets/gallery-3.webp";
+import g4 from "@/assets/gallery-4.webp";
+import g5 from "@/assets/gallery-5.webp";
+import galleryFloralCorner from "@/assets/gallery-floral-corner.webp";
+import { TornEdge } from "@/components/wedding/TornEdge";
 import { X, ChevronLeft, ChevronRight, Heart, Maximize2, MapPin } from "lucide-react";
 
 interface MemoryItem {
@@ -162,6 +164,24 @@ export function Gallery() {
 
   return (
     <section id="gallery" className="relative w-full bg-[#faf6ee] px-2 sm:px-4 pt-14 pb-20 select-none overflow-hidden text-center">
+      {/* Top Deckle Paper Divider */}
+      <TornEdge position="top" variant={4} showGoldFoil={true} className="-top-3 z-30" />
+
+      {/* ── TOP CORNER BOTANICAL FLORALS ── */}
+      {/* Top-Left Floral Corner */}
+      <img
+        src={galleryFloralCorner}
+        alt="Top Left Floral Corner"
+        className="pointer-events-none absolute top-[-25px] left-[-20px] w-28 sm:w-40 h-auto mix-blend-multiply opacity-85 z-20 select-none"
+      />
+
+      {/* Top-Right Floral Corner (180 Degree Flip) */}
+      <img
+        src={galleryFloralCorner}
+        alt="Top Right Floral Corner"
+        className="pointer-events-none absolute top-[-25px] right-[-20px] w-28 sm:w-40 h-auto mix-blend-multiply opacity-85 z-20 select-none -scale-x-100"
+      />
+
       {/* Background Soft Ambient Light */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-1/4 -left-20 w-80 h-80 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.12)_0%,transparent_70%)] blur-2xl" />

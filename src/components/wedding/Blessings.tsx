@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { blessingsSeed, couple } from "@/lib/wedding";
 import { ChevronLeft, ChevronRight, Eye, X } from "lucide-react";
 import { TornEdge } from "@/components/wedding/TornEdge";
-import ceremonySwanRaw from "@/assets/ceremony-swan-raw.png";
-import floralCornerImg from "@/assets/floral-corner.png";
+import ceremonySwanRaw from "@/assets/ceremony-swan-raw.webp";
+import floralCornerImg from "@/assets/floral-corner.webp";
 
 /**
  * Top Horizon Pavilions & Water SVG Scene

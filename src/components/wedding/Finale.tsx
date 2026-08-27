@@ -1,7 +1,6 @@
 import { couple } from "@/lib/wedding";
 import { RotateCcw, Calendar, Heart } from "lucide-react";
-import { TornEdge } from "@/components/wedding/TornEdge";
-import thankyouPavilionImg from "@/assets/thankyou-pavilion.png";
+import thankyouPavilionImg from "@/assets/thankyou-pavilion.webp";
 
 export function Finale({ onReplay }: { onReplay: () => void }) {
   const handleSaveDate = () => {
@@ -17,9 +16,6 @@ export function Finale({ onReplay }: { onReplay: () => void }) {
       id="finale"
       className="relative flex flex-col items-center justify-center bg-[#faf6ee] px-3 sm:px-4 pt-10 pb-8 sm:pb-10 text-center overflow-hidden"
     >
-      {/* Top Deckle Paper Divider */}
-      <TornEdge position="top" variant={1} showGoldFoil={true} className="-top-3 z-30" />
-
       {/* Soft Ethereal Background Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(253,248,238,0.9)_0%,rgba(250,246,238,0.4)_60%,transparent_100%)]" />
 
